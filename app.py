@@ -5,19 +5,22 @@ import streamlit as st
 # Leer los datos
 car_data = pd.read_csv('vehicles_us.csv')
 
-# Encabezado
+# Encabezado de la aplicación
 st.header('Análisis de Anuncios de Coches')
 
-# Botón para histograma
-hist_button = st.button('Construir histograma')
-if hist_button:
-    st.write('Creación de un histograma para la columna odómetro')
-    fig = px.histogram(car_data, x="odometer")
-    st.plotly_chart(fig, use_container_width=True)
+# Casilla de verificación para el histograma
+build_histogram = st.checkbox('Construir un histograma')
 
-# Botón para gráfico de dispersión
-scatter_button = st.button('Construir gráfico de dispersión')
-if scatter_button:
+if build_histogram:  # Si la casilla de verificación está seleccionada
+    st.write('Creación de un histograma para la columna odómetro')
+    fig_histogram = px.histogram(car_data, x="odometer", title='Histograma del Odómetro')
+    st.plotly_chart(fig_histogram, use_container_width=True)
+
+# Casilla de verificación para el gráfico de dispersión
+build_scatter = st.checkbox('Construir un gráfico de dispersión')
+
+if build_scatter:  # Si la casilla de verificación está seleccionada
     st.write('Creación de un gráfico de dispersión entre precio y odómetro')
-    fig = px.scatter(car_data, x="price", y="odometer", color="condition")
-    st.plotly_chart(fig, use_container_width=True)
+    fig_scatter = px.scatter(car_data, x="price", y="odometer", color="condition",
+                             title='Gráfico de Dispersión: Precio vs. Odómetro')
+    st.plotly_chart(fig_scatter, use_container_width=True)
